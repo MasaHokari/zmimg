@@ -1,0 +1,4 @@
+#!/bin/bash
+
+set -o xtrace
+python3 $(dirname "$0")/zmimg.py -a build -i "Individuals/Student-*.png" -o out.png
