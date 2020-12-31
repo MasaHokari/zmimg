@@ -2,19 +2,38 @@ zmimg
 
 Image slicer and builder for 2020 SFJS Yearbook Zoom screenshot
 
-# Usage
+# Installation
 
-`python3 zmimg.py [-h] -a {action} -i {input} -o {output} [-l {layout}]`
+1. Install Python3 if you don't have yet
+1. Get source code
+   - `git clone https://github.com/MasaHokari/zmimg`
 
-`python3 zmimg.py -a slice -i {input_image_file} -o {output_folder} [-l {layout}]`
+# Commandline options
 
-`python3 zmimg.py -a build -i {input_file_mask} -o {output_image_file}`
+```shell
+python3 zmimg.py [-h] -a {action} -i {input} -o {output} [-l {layout}]
+```
 
-- `action`: `slice`, `build`
-- `input`: Input image file or image file mask
-- `output`: Output image file or folder
-- `layout`: `e5` (default), `d5`
+- Commandline options
+  - `action`: `slice`, `build`
+  - `input`: Input image file or image file mask
+  - `output`: Output image file or folder
+  - `layout`: `e5` (default), `d5`
     - Required only for the slice action.
+
+# Retouch workflow 
+  1. Run `zmimg` command with `slice` action to slice a screenshot image and save individual portrait images.
+    ```shell
+    python3 zmimg.py -a slice -i {input_image_file} -o {output_folder} [-l {layout}]
+    ```
+  1. Retouch the individual portrait images and save them as new image files
+     - Note that this program does not honor retouches done by Adobe CameraRaw directly.
+      New image files need to be exported and use them in the next step.
+  1. Run `zmimg` command with `build` action to build collage image from individual portrait images.
+    ```shell
+    python3 zmimg.py -a build -i {input_file_mask} -o {output_image_file}
+    ```
+
 
 # Notes
 - In the slice action, the sliced images are always saved as TIFF files and have file names `Student-*.tif`.
@@ -27,8 +46,12 @@ Image slicer and builder for 2020 SFJS Yearbook Zoom screenshot
 # Examples
 - Slice `ClassPhoto1.png` file and save the sliced TIFF images in `Individuals` folder. 
 
-  ```python3 zmimg.py -a slice -i ClassPhoto1.png -o Individuals -l e5```
+  ```shell
+  python3 zmimg.py -a slice -i ClassPhoto1.png -o Individuals -l e5
+  ```
 
 - Build an image from `Individuals/Student-*.png` files and save as `ClassPhoto2.png` file.
 
-    ```python3 zmimg.py -a build -i "Individuals/Student-*.png" -o ClassPhoto2.png```
+  ```shell
+  python3 zmimg.py -a build -i "Individuals/Student-*.png" -o ClassPhoto2.png
+  ```
