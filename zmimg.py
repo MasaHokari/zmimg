@@ -114,15 +114,24 @@ def build_image(dest_file, src_files, config):
 def main_slice(dest_folder, src_file, layout):
     print('Slicing image...')
     if True:
+        # 3840 * 2000, macOS full screen
         x0 = 56
         y0 = 128
         dx = 736
         dy = 414
+    elif False:
+        # 3840 * 2000, macOS full size window w/ BetterSnapTool
+        x0 = 216
+        y0 = 268
+        dx = 672
+        dy = 378
     else:
+        # 6400 * 3600, macOS full screen
         x0 = 216
         y0 = 98
         dx = 1184
         dy = 666
+
     gx = 12
     gy = 12
     nx = 5
@@ -163,7 +172,6 @@ def main_build(dest_file, src_mask):
 
 
 def parse_arguments():
-
     SHORT_OPTIONS = 'ha:i:o:l:'
     LONG_OPTIONS = ['help', 'action=', 'input=', 'output=', 'layout=']
     opt_action = None
