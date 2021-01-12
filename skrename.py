@@ -52,26 +52,28 @@ def get_grade_base(value):
     elif value == 'E':
         return 1
     elif value == 'M':
-        return 6
+        return 7
     elif value == 'H':
-        return 9
+        return 10
     else:
         raise ValueError(f'Unknown level value: {value}')
 
 
 def get_grade_offset(value):
-    if value == '1':
-        return 1
+    if value == '':
+        return 0
+    elif value == '1':
+        return 0
     elif value == '2':
-        return 2
+        return 1
     elif value == '3':
-        return 3
+        return 2
     elif value == '4':
-        return 4
+        return 3
     elif value == '5':
-        return 5
+        return 4
     elif value == '6':
-        return 6
+        return 5
     else:
         raise ValueError(f'Unknown grade value: {value}')
 
@@ -95,6 +97,14 @@ def get_class_number(value):
         return 8
     elif value == '9':
         return 9
+    elif value == 'Hitsuji':
+        return 'hitsuji'
+    elif value == 'Kirin':
+        return 'kirin'
+    elif value == 'Risu':
+        return 'risu'
+    elif value == 'Usagi':
+        return 'usagi'
     else:
         raise ValueError(f'Unknown class_number value: {value}')
 
