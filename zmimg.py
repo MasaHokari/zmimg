@@ -14,7 +14,7 @@
 # Gap between individual image: W=12, H=12
 #
 # Examples:
-# python3 zmimg.py -a slice -i ~/Desktop/SFJS/Documents/test.png -o ~/Desktop/SFJS/Documents -l e5 -p Student-
+# python3 zmimg.py -a slice -i ~/Desktop/SFJS/Documents/test.png -o ~/Desktop/SFJS/Documents -l e5 -p "Student-" -q ".HOKA1234"
 # python3 zmimg.py -a build -i "~/Desktop/SFJS/Documents/Student-\*.tif" -o ~/Desktop/SFJS/Documents/test2.png
 #
 
@@ -26,7 +26,7 @@ import sys
 from PIL import Image
 
 
-def slice_image(dest_folder, src_file, config, prefix):
+def slice_image(dest_folder, src_file, config, prefix, postfix):
     x0, y0, dx, dy, gx, gy, nx, ny = config
 
     if not os.path.exists(dest_folder):
@@ -41,7 +41,7 @@ def slice_image(dest_folder, src_file, config, prefix):
         for ix in range(nx):
             box = (x, y, x + dx, y + dy)
             image2 = image.crop(box)
-            output_file = os.path.join(dest_folder, "%s%02d.tif" % (prefix, num))
+            output_file = os.path.join(dest_folder, "%s%02d%s.tif" % (prefix, num, postfix))
             if os.path.exists(output_file):
                 raise Exception("File already exists: %s" % output_file)
             try:
@@ -117,7 +117,7 @@ def build_image(dest_file, src_files, config):
         pass
 
 
-def main_slice(dest_folder, src_file, layout, prefix):
+def main_slice(dest_folder, src_file, layout, prefix, postfix):
     print('Slicing image...')
     if True:
         # 3840 * 2000, macOS full screen
@@ -153,7 +153,7 @@ def main_slice(dest_folder, src_file, layout, prefix):
     else:
         print('ERROR: Unknown layout: %s' % layout)
         exit(1)
-    slice_image(dest_folder, src_file, config, prefix)
+    slice_image(dest_folder, src_file, config, prefix, postfix)
     print(f'Done: {src_file}')
 
 
@@ -178,13 +178,14 @@ def main_build(dest_file, src_mask):
 
 
 def parse_arguments():
-    SHORT_OPTIONS = 'ha:i:o:l:p:'
-    LONG_OPTIONS = ['help', 'action=', 'input=', 'output=', 'layout=', 'prefix=']
+    SHORT_OPTIONS = 'ha:i:o:l:p:q:'
+    LONG_OPTIONS = ['help', 'action=', 'input=', 'output=', 'layout=', 'prefix=', 'postfix=']
     opt_action = None
     opt_input = None
     opt_output = None
     opt_layout = 'e5'
     opt_prefix = 'Student'
+    opt_postfix = ''
 
     argumentList = sys.argv[1:]
     try:
@@ -195,8 +196,8 @@ def parse_arguments():
         for current_argument, current_value in arguments:
 
             if current_argument in ('-h', '--help'):
-                print('python3 zmimg.py [-h] -a {action} -i {input} -o {output} [-l {layout}] [-p {prefix}]')
-                print('python3 zmimg.py -a slice -i {input_image_file} -o {output_folder} [-l {layout}] [-p {prefix}]')
+                print('python3 zmimg.py [-h] -a {action} -i {input} -o {output} [-l {layout}] [-p {prefix}] [-q {postfix}]')
+                print('python3 zmimg.py -a slice -i {input_image_file} -o {output_folder} [-l {layout}] [-p {prefix}] [-q {postfix}]')
                 print('python3 zmimg.py -a build -i {input_file_mask} -o {output_image_file}')
                 print()
                 print('\taction: \"slice\", \"build\"')
@@ -204,6 +205,7 @@ def parse_arguments():
                 print('\toutput: Output image file or folder')
                 print('\tlayout: \"e5\" (default), \"d5\"')
                 print('\tprefix: Any string, (default), \"Student-\"')
+                print('\tpostfix: Any string, (default), \"\" (empty)')
                 print('\t\tRequired only for the slice action.')
                 print()
                 print('Notes:')
@@ -213,7 +215,7 @@ def parse_arguments():
                 print('Examples:')
                 print('\t# Slice \"ClassPhoto1.png\" file and save the sliced TIFF images'
                       ' in \"Individuals\" folder.')
-                print('\tpython3 zmimg.py -a slice -i ClassPhoto1.png -o Individuals -l e5 -p Student')
+                print('\tpython3 zmimg.py -a slice -i ClassPhoto1.png -o Individuals -l e5 -p Student -q .HOKA1234')
                 print()
                 print('\t# Build an image from \"Individuals/Student-*.tif\" files and save as '
                       '\"ClassPhoto2.png\" file.')
@@ -241,6 +243,9 @@ def parse_arguments():
             elif current_argument in ('-p', '--prefix'):
                 opt_prefix = current_value
 
+            elif current_argument in ('-q', '--postfix'):
+                opt_postfix = current_value
+
     except getopt.error as err:
         print(str(err))
         exit(1)
@@ -255,14 +260,14 @@ def parse_arguments():
         print('Required argument missing: %s' % 'output')
         exit(1)
 
-    return opt_action, opt_input, opt_output, opt_layout, opt_prefix
+    return opt_action, opt_input, opt_output, opt_layout, opt_prefix, opt_postfix
 
 
 def main():
-    (opt_action, opt_input, opt_output, opt_layout, opt_prefix) = parse_arguments()
+    (opt_action, opt_input, opt_output, opt_layout, opt_prefix, opt_postfix) = parse_arguments()
 
     if opt_action == 'slice':
-        main_slice(opt_output, opt_input, opt_layout, opt_prefix)
+        main_slice(opt_output, opt_input, opt_layout, opt_prefix, opt_postfix)
     elif opt_action == 'build':
         main_build(opt_output, opt_input)
     else:
