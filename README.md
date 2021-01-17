@@ -11,7 +11,7 @@ Image slicer and builder for 2020 SFJS Yearbook Zoom screenshot
 # Commandline options
 
 ```shell
-python3 zmimg.py [-h] -a {action} -i {input} -o {output} [-l {layout}]
+python3 zmimg.py [-h] -a {action} -i {input} -o {output} [-l {layout}]  [-p {prefix}] [-q {postfix}]
 ```
 
 - Commandline options
@@ -20,11 +20,13 @@ python3 zmimg.py [-h] -a {action} -i {input} -o {output} [-l {layout}]
   - `output`: Output image file or folder
   - `layout`: `e5` (default), `d5`
     - Required only for the slice action.
+  - prefix: Any string, (default), `Student-`
+  - postfix: Any string, (default), `` (empty)
 
 # Retouch workflow 
   1. Run `zmimg` command with `slice` action to slice a screenshot image and save individual portrait images.
     ```shell
-    python3 zmimg.py -a slice -i {input_image_file} -o {output_folder} [-l {layout}]
+    python3 zmimg.py -a slice -i {input_image_file} -o {output_folder} [-l {layout}] [-p {prefix}] [-q {postfix}]
     ```
   1. Retouch the individual portrait images and save them as new image files
      - Note that this program does not honor retouches done by Adobe CameraRaw directly.
@@ -39,15 +41,22 @@ python3 zmimg.py [-h] -a {action} -i {input} -o {output} [-l {layout}]
 - In the slice action, the sliced images are always saved as TIFF files and have file names `Student-*.tif`.
 - Requires Python 3
 - Various parameters are fixed in this program.
-    - Screen size: W=3840 x H=2400
-    - Individual person image size: W=736 x H=414
-    - Gap between individual image: W=12, H=12
+    - Screen size: W=`3840` x H=`2400`
+    - Individual person image size: W=`736` x H=`414`
+    - Gap between individual image: W=`12`, H=`12`
 
 # Examples
 - Slice `ClassPhoto1.png` file and save the sliced TIFF images in `Individuals` folder. 
 
   ```shell
   python3 zmimg.py -a slice -i ClassPhoto1.png -o Individuals -l e5
+  ```
+
+- Slice `ClassPhoto1.png` file and save the sliced TIFF images in `Individuals` folder.
+Use `Person-` as the prefix and `.HOKA1234` as the postfix.
+
+  ```shell
+  python3 zmimg.py -a slice -i ClassPhoto1.png -o Individuals -l e5 -p 'Person-' -q '.HOKA1234'
   ```
 
 - Build an image from `Individuals/Student-*.png` files and save as `ClassPhoto2.png` file.

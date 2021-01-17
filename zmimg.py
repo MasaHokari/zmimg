@@ -204,9 +204,9 @@ def parse_arguments():
                 print('\tinput: Input image file or image file mask')
                 print('\toutput: Output image file or folder')
                 print('\tlayout: \"e5\" (default), \"d5\"')
+                print('\t\tRequired only for the slice action.')
                 print('\tprefix: Any string, (default), \"Student-\"')
                 print('\tpostfix: Any string, (default), \"\" (empty)')
-                print('\t\tRequired only for the slice action.')
                 print()
                 print('Notes:')
                 print('\tIn the slice action, the sliced images are always saved as TIFF files'
