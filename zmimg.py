@@ -125,10 +125,51 @@ def main_slice(dest_folder, src_file, layout, prefix, postfix):
         y0 = 128
         dx = 736
         dy = 414
+    elif False: # Mike's 3820 * 2400, 4 rows
+        x0 = 46
+        y0 = 354
+        dx = 736
+        dy = 414
+    elif False: # Mike's 3820 * 2400, 5 rows, Variation 1
+        x0 = 46
+        y0 = 141
+        dx = 736
+        dy = 414
+    elif False: # Mike's 3820 * 2400, 5 rows, Variation 2
+        x0 = 56
+        y0 = 567
+        dx = 736
+        dy = 414
+    elif False: # Mike's 3820 * 2400, 5 rows, Variation 3
+        x0 = 136
+        y0 = 186
+        dx = 704
+        dy = 396
+    elif False: # Mike's 3840 * 2400, 4 rows, Variation 1
+        x0 = 136
+        y0 = 390
+        dx = 704
+        dy = 396
+    elif False: # Mike's 3840 * 2400, 4 rows, Variation 2
+        x0 = 56
+        y0 = 354
+        dx = 736
+        dy = 414
+    elif False: # Mike's 3840 * 2400, 4 columns, 4 rows
+        x0 = 110
+        y0 = 432
+        dx = 896
+        dy = 503
     elif False:
         # 3840 * 2000, macOS full size window w/ BetterSnapTool
         x0 = 216
         y0 = 268
+        dx = 672
+        dy = 378
+    elif False:
+        # 3840 * 2000, macOS full size window w/ BetterSnapTool (2)
+        x0 = 216
+        y0 = 222
         dx = 672
         dy = 378
     else:
