@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+
+set -o xtrace
+mkdir -p Individuals
+python3 $(dirname "$0")/zmimg.py -a slice -i "$1" -o Individuals -l d4

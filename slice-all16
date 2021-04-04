@@ -1,0 +1,3 @@
+#
+
+find . -name "*.png" -exec $(dirname "$0")/slice-one16 {} "Individuals" \;
