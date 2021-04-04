@@ -187,10 +187,30 @@ def main_slice(dest_folder, src_file, layout, prefix, postfix):
     x0 = x0 + (dx + gx) / 2
     nx = 4
     config_d5 = (x0, y0, dx, dy, gx, gy, nx, ny)
+    
+    # 3840 * 2000, macOS full screen
+    x0 = 46
+    y0 = 124
+    dx = 928
+    dy = 522
+
+    gx = 12
+    gy = 12
+    nx = 4
+    ny = 4
+    config_d4 = (x0, y0, dx, dy, gx, gy, nx, ny)
+    x0 = x0 + (dx + gx) / 2
+    nx = 3
+    config_c4 = (x0, y0, dx, dy, gx, gy, nx, ny)
+    
     if layout == 'e5':
         config = config_e5
     elif layout == 'd5':
         config = config_d5
+    elif layout == 'd4':
+        config = config_d4
+    elif layout == 'c4':
+        config = config_c4
     else:
         print('ERROR: Unknown layout: %s' % layout)
         exit(1)
@@ -244,7 +264,7 @@ def parse_arguments():
                 print('\taction: \"slice\", \"build\"')
                 print('\tinput: Input image file or image file mask')
                 print('\toutput: Output image file or folder')
-                print('\tlayout: \"e5\" (default), \"d5\"')
+                print('\tlayout: \"e5\" (default), \"d5\", \"d4\", \"c4\"')
                 print('\t\tRequired only for the slice action.')
                 print('\tprefix: Any string, (default), \"Student-\"')
                 print('\tpostfix: Any string, (default), \"\" (empty)')
@@ -276,7 +296,7 @@ def parse_arguments():
                 opt_output = os.path.expanduser(current_value)
 
             elif current_argument in ('-l', '--layout'):
-                if current_value != 'd5' and current_value != 'e5':
+                if current_value != 'e5' and current_value != 'd5' and current_value != 'd4' and current_value != 'c4':
                     print('ERROR: Unknown layout: %s' % current_value)
                     exit(1)
                 opt_layout = current_value
