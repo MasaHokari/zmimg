@@ -18,7 +18,7 @@ python3 zmimg.py [-h] -a {action} -i {input} -o {output} [-l {layout}]  [-p {pre
   - `action`: `slice`, `build`
   - `input`: Input image file or image file mask
   - `output`: Output image file or folder
-  - `layout`: `e5` (default), `d5`
+  - `layout`: `e5` (default), `d5`, `d4`, `c4`
     - Required only for the slice action.
   - prefix: Any string, (default), `Student-`
   - postfix: Any string, (default), `` (empty)
