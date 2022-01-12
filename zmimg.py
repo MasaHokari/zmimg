@@ -80,16 +80,39 @@ LAYOUT_CONFIG = (
     (5, 5),  # 23
     (5, 5),  # 24
     (5, 5),  # 25
+    (6, 5),  # 26
+    (6, 5),  # 27
+    (6, 5),  # 28
+    (6, 5),  # 29
+    (6, 5),  # 30
+    (6, 6),  # 31
+    (6, 6),  # 32
+    (6, 6),  # 33
+    (6, 6),  # 34
+    (6, 6),  # 35
+    (6, 6),  # 36
 )
 
+def fit_rect(ix, iy, ox, oy):
+    rx = ox / ix
+    ry = oy / iy
+    r = min(rx, ry)
+
+    x = int(ix * r)
+    y = int(iy * r)
+    return (x, y)
 
 def build_image(dest_file, src_files, config):
     (lx, ly, x0, y0, dx, dy, gx, gy, background_color) = config
     num_images = len(src_files)
     (ax, ay) = LAYOUT_CONFIG[num_images]
     a_total = ax * ay
-    x0 += int((dx + gx) / 2 * (5 - ax))
-    y0 += int((dy + gy) / 2 * (5 - ay))
+    if num_images > 25:
+        x0 += int((dx + gx) / 2 * (6 - ax))
+        y0 += int((dy + gy) / 2 * (6 - ay))
+    else:
+        x0 += int((dx + gx) / 2 * (5 - ax))
+        y0 += int((dy + gy) / 2 * (5 - ay))
     image_seq = 0
     py = y0
     collage = Image.new('RGB', (lx, ly), color=background_color)
@@ -102,7 +125,9 @@ def build_image(dest_file, src_files, config):
         for ix in range(ax):
             image = Image.open(src_files[image_seq])
             box = image.getbbox()
-            collage.paste(image, (int(px), int(py)))
+            (bx, by) = fit_rect(box[2], box[3], dx, dy)
+            image2 = image.resize((bx, by))
+            collage.paste(image2, (int(px), int(py)))
             px += dx + gx
             image_seq += 1
             if image_seq >= num_images:
@@ -220,20 +245,27 @@ def main_slice(dest_folder, src_file, layout, prefix, postfix):
 
 def main_build(dest_file, src_mask):
     print('Creating image...')
+    src_files = []
+    for file in glob.glob(src_mask):
+        src_files.append(file)
+    src_files.sort()
+    num_images = len(src_files)
+    print(f'Number of images: {num_images}')
+
     lx = 3840
     ly = 2400
     x0 = 56
     y0 = 128
     dx = 736
     dy = 414
+    if num_images > 25:
+        dx = dx / 1.2
+        dy = dy / 1.2
     gx = 12
     gy = 12
     background_color = (23, 23, 23)
     config = (lx, ly, x0, y0, dx, dy, gx, gy, background_color)
-    src_files = []
-    for file in glob.glob(src_mask):
-        src_files.append(file)
-    src_files.sort()
+
     build_image(dest_file, src_files, config)
     print(f'Done: {dest_file}')
 

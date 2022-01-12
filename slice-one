@@ -1,7 +1,0 @@
-#
-
-f=$(basename -- "$1")
-
-python3 $(dirname "$0")/zmimg.py -a slice -l d5 -i "$1" -o "$2" -p "d5-Person-" -q ".$f"
-
-python3 $(dirname "$0")/zmimg.py -a slice -l e5 -i "$1" -o "$2" -p "e5-Person-" -q ".$f"
